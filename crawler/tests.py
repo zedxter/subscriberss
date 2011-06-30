@@ -1,16 +1,27 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
-from django.test import TestCase
+#-*- coding: utf8 -*-
+from django.utils import unittest
+from django.db.utils import IntegrityError
+from models import Article, RssUrl
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class ArticleTestCase(unittest.TestCase):
+    def setUp(self):
+        self.url = RssUrl.objects.create(link='http://habrahabr.ru/rss/')
+        article = Article.objects.create(rss_url=self.url,
+                                         guid='guid',
+                                         title='title',
+                                         link='link',
+                                         description='description')
+        
+    def test_add_article(self):
+        def add_unique():
+            for x in range(2):
+                article = Article.objects.create(rss_url=self.url,
+                                                 guid='guid',
+                                                 title='title',
+                                                 link='link',
+                                                 description='description')
+        
+        with self.assertRaises(IntegrityError):
+            add_unique()
+

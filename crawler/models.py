@@ -12,7 +12,7 @@ class Article(models.Model):
     title = models.CharField(max_length=200)
     link = models.URLField()
     description = models.TextField()
-    parsed = models.DateTimeField()
+    parsed_date = models.DateTimeField(auto_now_add=True)
     
     def __unicode__(self):
         return self.title
