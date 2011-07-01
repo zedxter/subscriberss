@@ -1,7 +1,11 @@
-# Django settings for rss project.
+# Django settings for subscriberss project.
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+WORKDIR = os.getcwd()
+get_path = lambda x: os.path.join(WORKDIR, x)
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -95,12 +99,12 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'rss.urls'
+ROOT_URLCONF = 'subscriberss.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -115,9 +119,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'crawler',
+    'subscribe',
 )
 
 # A sample logging configuration. The only tangible logging

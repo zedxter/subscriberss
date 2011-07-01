@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
-from crawler.models import Article, RssUrl
+from subscribe.models import Article, RssUrl
 import feedparser
 
 
