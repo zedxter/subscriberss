@@ -12,7 +12,7 @@ class ArticleTestCase(unittest.TestCase):
         self.url.delete()
 
         
-    def test_add_article(self):
+    def test_add_article_unique_link_guid(self):
         def _helper():
             for _ in range(2):
                 Article.objects.create(rss_url=self.url,
