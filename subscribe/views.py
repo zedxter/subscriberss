@@ -26,7 +26,7 @@ def new(request):
             try:
                 rss_url = Rss.objects.get(link=url)
             except Rss.DoesNotExist:
-                rss_url = Rss(link=url, active=False)
+                rss_url = Rss(link=url)
                 rss_url.save()
                 
             token = random_string(24)
