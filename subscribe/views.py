@@ -36,13 +36,12 @@ def new(request):
                                   active=False,
                                   token=token)
 
-            # TODO: письмо подписчику
-
             try:
                 subscribe.save()
             except IntegrityError:
                 return response_json({'status': 1, 'message': 'subscribe already exists'})
-            
+
+            # TODO: письмо подписчику
             return response_json({'status': 0, 'message': 'subscribe added'})
         
         else:
