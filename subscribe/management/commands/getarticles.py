@@ -6,14 +6,19 @@ import feedparser
 
 class Command(BaseCommand):
     def handle(self, *args, **optionals):
-        for url in Rss.objects.filter(active=True):
-            feed = feedparser.parse(url.link)
+        for rss in Rss.objects.filter():
+            feed = feedparser.parse(rss.link)
+            
+            if not rss.title:
+                rss.title = feed.get('title')
+                rss.save()
+            
             items = feed.get('items')
             if not items:
                 continue
 
             for item in feed["items"]:
-                article = Article(rss_url=url)
+                article = Article(rss=rss)
                 
                 guid = item.get('guid')
                 if guid:

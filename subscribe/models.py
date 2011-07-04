@@ -4,6 +4,7 @@ from django.db import models
 
 class Rss(models.Model):
     link = models.URLField(unique=True)
+    title = models.CharField(max_length=200, blank=True, null=True)
     last_sent_id = models.PositiveIntegerField(blank=True, null=True)
     def __unicode__(self):
         return self.link
@@ -39,7 +40,8 @@ class Subscription(models.Model):
 
 class MailTask(models.Model):
     subscribe = models.ForeignKey(Subscription)
-    articles = models.ManyToManyField(Article)
+    rss = models.ForeignKey(Rss)
+    message = models.TextField()
     sent = models.BooleanField()
     
     def __unicode__(self):
