@@ -29,7 +29,7 @@ class ArticleTestCase(unittest.TestCase):
         self.assertRaises(IntegrityError, _helper)
 
 
-class SubscriptionTestCase(unittest.TestCase):
+class ActivateDeactivateSubscriptionTestCase(unittest.TestCase):
     def setUp(self):
         self.rss = Rss.objects.create(link='http://example.com/rss/')
         inactive_subscription_token = '1'
@@ -71,3 +71,30 @@ class SubscriptionTestCase(unittest.TestCase):
         _helper(True)
 
 
+class NewSubscribeTestCase(unittest.TestCase):
+    def setUp(self):
+        self.email = 'test@test.com'
+        self.feed_link = 'http://example.com/rss/'
+        self.client = Client()
+        
+    def tearDown(self):
+        self.rss.delete()
+        self.subscr.delete()
+    
+    def test_add_new_ok(self):
+        subscr_count = Subscription.objects.all().count()
+        self.assertEqual(subscr_count, 0)
+        
+        req = lambda: self.client.post('/subscribe/new/', {'feed_link': self.feed_link, 'email': self.email})
+        
+        resp = req()
+        self.assertEqual(resp.status_code, 200)
+        
+        self.rss = Rss.objects.get(link=self.feed_link)
+        self.subscr = Subscription.objects.get(email=self.email)
+        
+        resp2 = req()
+        json_resp = json.loads(resp2.content)
+        self.assertEqual(json_resp['status'], 1)
+        
+        

@@ -31,7 +31,7 @@ def new(request):
                 
             token = random_string(24)
                 
-            subscribe = Subscription(rss_url=rss_url,
+            subscribe = Subscription(rss=rss_url,
                                   email=email,
                                   active=False,
                                   token=token)
