@@ -1,12 +1,12 @@
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
-from subscribe.models import Article, RssUrl
+from subscribe.models import Article, Rss
 import feedparser
 
 
 class Command(BaseCommand):
     def handle(self, *args, **optionals):
-        for url in RssUrl.objects.filter(active=True):
+        for url in Rss.objects.filter(active=True):
             feed = feedparser.parse(url.link)
             items = feed.get('items')
             if not items:

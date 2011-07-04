@@ -14,9 +14,9 @@ class ArticleAdmin(admin.ModelAdmin):
 class RssUrlAdmin(admin.ModelAdmin):
     list_display = ('link', 'active')
 
-admin.site.register(RssUrl, RssUrlAdmin)
+admin.site.register(Rss, RssUrlAdmin)
 admin.site.register(Article, ArticleAdmin)
-admin.site.register(Subscribe, SubscribeAdmin)
+admin.site.register(Subscription, SubscribeAdmin)
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
