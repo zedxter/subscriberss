@@ -5,7 +5,7 @@ import random
 from django.http import HttpResponse
 from django.db.utils import IntegrityError
 from forms import SubscribeForm
-from models import Subscribe, RssUrl, Article
+from models import Subscribe, RssUrl
 
 def response_json(response_dict):
     return HttpResponse(json.dumps(response_dict), mimetype='application/javascript')
@@ -17,7 +17,7 @@ def randstring_creator(count):
 def new(request):
     if request.method == 'POST':
         form = SubscribeForm(request.POST)
-        
+
         if form.is_valid():
             email = form.cleaned_data['email']
             url = form.cleaned_data['feed_link']
@@ -48,37 +48,35 @@ def new(request):
         return HttpResponse(status=405)
         
 def manage(request, action, subscribe_id, token):
-    
     try:
         subscribe = Subscribe.objects.get(id=subscribe_id,
                                           token=token)
-        
         rss_url = RssUrl.objects.get(link=subscribe.rss_url)
-        
+
         if action == 'activate':
             if not rss_url.active:
                 rss_url.active = True
                 rss_url.save()
-                
+
             if not subscribe.active:
                 subscribe.active = True
                 subscribe.save()
                 return response_json({'status': 0, 'message': 'subscribe activated'})
             else:
                 return response_json({'status': 1, 'message': 'subscribe already active'})
-                
+
         elif action == 'deactivate':
             if subscribe.active:
                 subscribe.active = False
                 subscribe.save()
-                
-                if Subscribe.objects.filter(active=True, rss_url=rss_url).count() == 0:
+
+                if not Subscribe.objects.filter(active=True, rss_url=rss_url).exists():
                     rss_url.active = False
                     rss_url.save()
-                
+
                 return response_json({'status': 0, 'message': 'subscribe deactivated'})
             else:
                 return response_json({'status': 1, 'message': 'subscribe already inactive'})
-                
+
     except Subscribe.DoesNotExist:
-        return response_json({'status': 1, 'message': 'subscribe not exists'})
+        return HttpResponse(status=404)
