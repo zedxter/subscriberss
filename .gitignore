@@ -1,2 +1,8 @@
-*.pyc
-rss.db
+*.idea
+*.sw[op]
+settings_local.py
+*.log
+*.py[oc]
+.project
+.pydevproject
+*.db
