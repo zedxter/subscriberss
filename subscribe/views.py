@@ -34,6 +34,9 @@ def new(request):
                                   email=email,
                                   active=False,
                                   token=token)
+
+            # TODO: письмо подписчику
+
             try:
                 subscribe.save()
             except IntegrityError:
@@ -54,10 +57,6 @@ def manage(request, action, subscribe_id, token):
         rss_url = RssUrl.objects.get(link=subscribe.rss_url)
 
         if action == 'activate':
-            if not rss_url.active:
-                rss_url.active = True
-                rss_url.save()
-
             if not subscribe.active:
                 subscribe.active = True
                 subscribe.save()
@@ -69,11 +68,6 @@ def manage(request, action, subscribe_id, token):
             if subscribe.active:
                 subscribe.active = False
                 subscribe.save()
-
-                if not Subscribe.objects.filter(active=True, rss_url=rss_url).exists():
-                    rss_url.active = False
-                    rss_url.save()
-
                 return response_json({'status': 0, 'message': 'subscribe deactivated'})
             else:
                 return response_json({'status': 1, 'message': 'subscribe already inactive'})

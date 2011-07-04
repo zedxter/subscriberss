@@ -3,8 +3,6 @@ from django.db import models
 
 class RssUrl(models.Model):
     link = models.URLField(unique=True)
-    active = models.BooleanField()
-    
     def __unicode__(self):
         return self.link
     
