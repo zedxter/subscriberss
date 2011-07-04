@@ -10,9 +10,9 @@ from models import Subscribe, RssUrl
 def response_json(response_dict):
     return HttpResponse(json.dumps(response_dict), mimetype='application/javascript')
     
-def randstring_creator(count):
+def random_string(n):
     a = string.ascii_letters + string.digits
-    return ''.join([random.choice(a) for _ in xrange(count)])
+    return ''.join([random.choice(a) for _ in xrange(n)])
     
 def new(request):
     if request.method == 'POST':
@@ -28,7 +28,7 @@ def new(request):
                 rss_url = RssUrl(link=url, active=False)
                 rss_url.save()
                 
-            token = randstring_creator(24)
+            token = random_string(24)
                 
             subscribe = Subscribe(rss_url=rss_url,
                                   email=email,
