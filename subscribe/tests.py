@@ -7,16 +7,18 @@ from models import Article, RssUrl
 class ArticleTestCase(unittest.TestCase):
     def setUp(self):
         self.url = RssUrl.objects.create(link='http://ololo.ru/rss/')
+
+    def tearDown(self):
+        self.url.delete()
+
         
     def test_add_article(self):
-        def add_unique():
-            for x in range(2):
-                article = Article.objects.create(rss_url=self.url,
-                                                 guid='guid',
-                                                 title='title',
-                                                 link='link',
-                                                 description='description')
-        
-        with self.assertRaises(IntegrityError):
-            add_unique()
+        def _helper():
+            for _ in range(2):
+                Article.objects.create(rss_url=self.url,
+                                       guid='guid',
+                                       title='title',
+                                       link='link',
+                                       description='description')
 
+        self.assertRaises(IntegrityError, _helper)
