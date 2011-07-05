@@ -151,7 +151,7 @@ LOGGING = {
 
 
 SERVICE_EXTERNAL_ROOT_URL = 'http://localhost:8000/'
-SERVICE_EMAIL_ADDRESS = 'subscribe@subscriberss.ru'
+SERVICE_EMAIL_ADDRESS = 'noreply-rss-service@example.com'
 MAIL_ACTIVATE_TITLE = 'Активация подписки на рассылку'
 MAIL_ACTIVATE_TEMPLATE = '''
 Здравствуйте!
