@@ -1,7 +1,6 @@
 #-*- coding: UTF-8 -*-
 from django.db import models
 
-
 class Rss(models.Model):
     link = models.URLField(unique=True)
     title = models.CharField(max_length=200, blank=True, null=True)

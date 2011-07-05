@@ -1,0 +1,9 @@
+{% for article in digest_articles %}
+    <a href="{{ article.link }}">{{ article.title }}</a>
+    <br><br>
+    {{ article.description }}
+    <br><br><br>
+{% endfor %}
+<br>
+Для того, чтобы отписаться от данной рассылки, перейдите по ссылке:<br>
+{{ unsubscribe_url }}
