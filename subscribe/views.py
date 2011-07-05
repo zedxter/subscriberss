@@ -1,11 +1,14 @@
-#-*- coding: utf8 -*-
+#-*- coding: UTF-8 -*-
 import json
 import string
 import random
+import re
 from django.http import HttpResponse
 from django.db.utils import IntegrityError
+from django.core.urlresolvers import reverse
 from forms import SubscribeForm
-from models import Subscription, Rss
+from models import Subscription, Rss, MailTask
+import settings
 
 def response_json(response_dict):
     return HttpResponse(json.dumps(response_dict), mimetype='application/javascript')
@@ -41,7 +44,18 @@ def new(request):
             except IntegrityError:
                 return response_json({'status': 1, 'message': 'subscribe already exists'})
 
-            # TODO: письмо подписчику
+            #письмо активации подписчику
+            params = {'email': email.encode('utf8'),
+                      'rss': url.encode('utf8'),
+                      'activate_link': '%s%s' % (re.sub(r'/$', '', settings.SERVICE_EXTERNAL_ROOT_URL),
+                                                 reverse(manage, args=['activate', subscribe.id, subscribe.token]))}
+
+            m_task = MailTask(subscribe=subscribe,
+                              rss=rss_url,
+                              title=settings.MAIL_ACTIVATE_TITLE,
+                              message=settings.MAIL_ACTIVATE_TEMPLATE % params)
+            m_task.save()
+
             return response_json({'status': 0, 'message': 'subscribe added'})
         
         else:

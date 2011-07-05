@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 # Django settings for subscriberss project.
 import os
 
@@ -145,6 +147,21 @@ LOGGING = {
         },
     }
 }
+
+
+SERVICE_EXTERNAL_ROOT_URL = 'http://subscriberss.ru/'
+SERVICE_EMAIL_ADDRESS = 'subscribe@subscriberss.ru'
+MAIL_ACTIVATE_TITLE = 'Активация подписки на рассылку'
+MAIL_ACTIVATE_TEMPLATE = '''
+Здравствуйте!
+
+Вы, либо кто-то другой указали адрес %(email)s для подписки на почтовую рассылку сообщений RSS-ленты %(rss)s
+
+Для подтверждения рассылки перейдите по ссылке:
+%(activate_link)s
+
+Если запрос на оформление подписки был отправлен не Вами, просто проигнорируйте это письмо.
+'''
 
 try:
     from settings_local import *
