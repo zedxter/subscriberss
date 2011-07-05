@@ -56,7 +56,9 @@ class MailTask(models.Model):
     title = models.CharField(max_length=200)
     message = models.TextField()
     sent = models.CharField(choices=STATUS_CHOICES,
-                            default=STATUS_IN_PROGRESS)
+                            default=STATUS_IN_PROGRESS,
+                            max_length=2)
+    exception_message = models.TextField()
     
     def __unicode__(self):
         return self.title
