@@ -38,13 +38,25 @@ class Subscription(models.Model):
     class Meta:
         unique_together = ('email', 'rss')
 
-
 class MailTask(models.Model):
+    STATUS_IN_PROGRESS = '0'
+    STATUS_OK = '1'
+    STATUS_INNER_FAILURE = '2'
+    STATUS_PROVIDER_FAILURE = '3'
+
+    STATUS_CHOICES = (
+            (STATUS_IN_PROGRESS, 'IN PROGRESS'),
+            (STATUS_OK, 'OK'),
+            (STATUS_INNER_FAILURE, 'INNER FAILURE'),
+            (STATUS_PROVIDER_FAILURE, 'PROVIDER FAILURE'),
+        )
+
     subscribe = models.ForeignKey(Subscription)
     rss = models.ForeignKey(Rss)
     title = models.CharField(max_length=200)
     message = models.TextField()
-    sent = models.BooleanField(default=False)
+    sent = models.CharField(choices=STATUS_CHOICES,
+                            default=STATUS_IN_PROGRESS)
     
     def __unicode__(self):
         return self.title
