@@ -27,7 +27,7 @@ class Article(models.Model):
 
 
 class Subscription(models.Model):
-    rss = models.ForeignKey(Rss)
+    rss = models.ForeignKey(Rss, related_name='subscription')
     email = models.EmailField()
     token = models.CharField(max_length=50)
     active = models.BooleanField()
