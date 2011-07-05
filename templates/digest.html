@@ -1,9 +1,11 @@
 {% for article in digest_articles %}
     <a href="{{ article.link }}">{{ article.title }}</a>
-    <br><br>
+    <p>
+    {% autoescape off %}
     {{ article.description }}
-    <br><br><br>
+    {% endautoescape %}
+    </p>
 {% endfor %}
-<br>
+<hr/>
 Для того, чтобы отписаться от данной рассылки, перейдите по ссылке:<br>
 {{ unsubscribe_url }}
