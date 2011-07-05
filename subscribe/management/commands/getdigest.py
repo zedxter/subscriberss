@@ -10,6 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **optionals):
 
         for rss in Rss.objects.filter(subscription__active=True):
+
             this_rss_subscr = Subscription.objects.filter(rss=rss)
 
             if this_rss_subscr:
@@ -19,7 +20,7 @@ class Command(BaseCommand):
                     for subscr in this_rss_subscr:
                         unsubscribe_url = reverse(manage, args=['deactivate', subscr.id, subscr.token])
                         message = render_to_string('digest.html', locals())
-                        
+
                         m_task = MailTask(subscribe=subscr,
                                           rss=rss,
                                           title=rss.title,
