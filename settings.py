@@ -150,7 +150,7 @@ LOGGING = {
 }
 
 
-SERVICE_EXTERNAL_ROOT_URL = 'http://subscriberss.ru/'
+SERVICE_EXTERNAL_ROOT_URL = 'http://localhost:8000/'
 SERVICE_EMAIL_ADDRESS = 'subscribe@subscriberss.ru'
 MAIL_ACTIVATE_TITLE = 'Активация подписки на рассылку'
 MAIL_ACTIVATE_TEMPLATE = '''

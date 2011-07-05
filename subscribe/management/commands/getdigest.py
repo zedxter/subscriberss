@@ -3,6 +3,8 @@ from subscribe.models import Rss, Article, Subscription, MailTask
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from subscribe.views import manage
+import settings
+import re
 
 
 class Command(BaseCommand):
@@ -18,7 +20,8 @@ class Command(BaseCommand):
 
                 if digest_articles:
                     for subscr in this_rss_subscr:
-                        unsubscribe_url = reverse(manage, args=['deactivate', subscr.id, subscr.token])
+                        unsubscribe_url = '%s%s' % (re.sub(r'/$', '', settings.SERVICE_EXTERNAL_ROOT_URL),
+                                                    reverse(manage, args=['deactivate', subscr.id, subscr.token]))
                         message = render_to_string('digest.html', locals())
 
                         m_task = MailTask(subscribe=subscr,
